@@ -54,6 +54,8 @@ Lifecycle / Activity
 13. System generates receipt on the bases of fare + fuel fee + deduct money from security fees and return remaining money
 14. Admin can remove vehicle from garage
 
+http://localhost:8080/h2-console
+
 **Models**
 Branch {id, name, location, address} -1:m- Vehicle {id, licensePlate, type, branchId (FK), barcode, isAvailable, fuelLevel, mileage, lastServiced}
 Booking {id, vehicleId (FK), userId (FK), startTime, endTime, status}

@@ -9,4 +9,5 @@ public interface VehicleService {
     List<Vehicle> getAvailableVehicles(Long branchId, String type);
     void updateVehicleStatus(Long vehicleId, boolean isAvailable);
     Vehicle getVehicleById(Long vehicleId);
+    void deleteVehicle(Long vehicleId);
 }

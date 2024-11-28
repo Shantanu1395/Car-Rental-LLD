@@ -26,4 +26,20 @@ public class Branch {
     }
 
     // Getters and Setters
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

@@ -40,6 +40,9 @@ public class Booking {
     )
     private List<AddOn> addOns;
 
+    public Booking() {
+    }
+
     public Booking(User user, Vehicle vehicle, LocalDateTime startTime, LocalDateTime endTime, String status) {
         this.user = user;
         this.vehicle = vehicle;

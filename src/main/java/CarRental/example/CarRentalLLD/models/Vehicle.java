@@ -25,6 +25,9 @@ public class Vehicle {
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     private List<Booking> bookings;
 
+    public Vehicle() {
+    }
+
     public Vehicle(String licensePlate, String type, String barcode, Branch branch, boolean isAvailable) {
         this.licensePlate = licensePlate;
         this.type = type;
@@ -38,4 +41,23 @@ public class Vehicle {
         this.isAvailable = isAvailable;
     }
 
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
 }

@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,13 +20,27 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings;
 
-    // Getters and Setters
+    public User() {
+    }
 
+    public User(String username, String email, String password, String contactDetails, String role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.contactDetails = contactDetails;
+        this.role = role;
+    }
+
+    // Getters and Setters
     public Long getId() {
         return id;
     }
 
     public String getEmail(){
         return this.email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

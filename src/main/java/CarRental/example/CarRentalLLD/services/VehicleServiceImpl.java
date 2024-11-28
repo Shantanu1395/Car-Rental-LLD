@@ -49,4 +49,11 @@ public class VehicleServiceImpl implements VehicleService {
     public Vehicle getVehicleById(Long vehicleId) {
         return vehicleRepository.findById(vehicleId).orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
     }
+
+    @Override
+    public void deleteVehicle(Long vehicleId) {
+        Vehicle vehicle = vehicleRepository.findById(vehicleId)
+                .orElseThrow(() -> new RuntimeException("Vehicle not found with ID: " + vehicleId));
+        vehicleRepository.delete(vehicle);
+    }
 }

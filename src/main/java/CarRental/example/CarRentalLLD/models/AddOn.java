@@ -32,4 +32,16 @@ public class AddOn {
     public double getPrice() {
         return price;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
