@@ -13,6 +13,8 @@ A Car Rental System is a software built to handle the renting of automobiles for
 11. Members can rent additional equipment, like navigation, child seat, ski rack, etc.
 12. Members can add additional services to their reservation, such as roadside assistance, additional driver, wifi, etc.
 
+
+
 1. Usecases
     1. User
         1. Create User
