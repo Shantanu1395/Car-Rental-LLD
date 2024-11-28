@@ -57,7 +57,7 @@ Lifecycle / Activity
 http://localhost:8080/h2-console
 
 **Models**
-Branch {id, name, location, address} -1:m- Vehicle {id, licensePlate, type, branchId (FK), barcode, isAvailable, fuelLevel, mileage, lastServiced}
+```Branch {id, name, location, address} -1:m- Vehicle {id, licensePlate, type, branchId (FK), barcode, isAvailable, fuelLevel, mileage, lastServiced}
 Booking {id, vehicleId (FK), userId (FK), startTime, endTime, status}
 		-m:1- Vehicle {id, licensePlate, type, branchId (FK), barcode, isAvailable, fuelLevel, mileage, lastServiced}
         -m:1- User {id, username, email, password, contactDetails, role}
@@ -65,6 +65,7 @@ Booking {id, vehicleId (FK), userId (FK), startTime, endTime, status}
 		-1:m- BookingEvent {id, bookingId (FK), event, description, timestamp}
 		-1:m- Payment {id, bookingId (FK), amount, paymentMethod, status, timestamp}
         -m:n- AddOn {id, name, type, description, price}
+```
 
 **Interfaces**
 ```java
