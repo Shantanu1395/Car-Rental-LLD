@@ -1,6 +1,7 @@
 package CarRental.example.CarRentalLLD.models;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,5 +40,44 @@ public class Booking {
     )
     private List<AddOn> addOns;
 
+    public Booking(User user, Vehicle vehicle, LocalDateTime startTime, LocalDateTime endTime, String status) {
+        this.user = user;
+        this.vehicle = vehicle;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.status = status;
+    }
+
     // Getters and Setters
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    // Utils
+    public double getDuration() {
+        if (startTime == null || endTime == null) {
+            throw new IllegalStateException("Start time and end time must not be null.");
+        }
+
+        Duration duration = Duration.between(startTime, endTime);
+        return duration.toHours() + (duration.toMinutesPart() / 60.0);
+    }
+
 }

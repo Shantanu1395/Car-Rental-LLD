@@ -18,5 +18,16 @@ public class Payment {
     private String status;
     private LocalDateTime timestamp;
 
+    public Payment() {
+    }
+
+    public Payment(Booking booking, double amount, String paymentMethod, String status) {
+        this.booking = booking;
+        this.amount = amount;
+        this.paymentMethod = paymentMethod;
+        this.status = status;
+        this.timestamp = LocalDateTime.now();
+    }
+
     // Getters and Setters
 }

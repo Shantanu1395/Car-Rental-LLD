@@ -25,5 +25,17 @@ public class Vehicle {
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     private List<Booking> bookings;
 
+    public Vehicle(String licensePlate, String type, String barcode, Branch branch, boolean isAvailable) {
+        this.licensePlate = licensePlate;
+        this.type = type;
+        this.barcode = barcode;
+        this.branch = branch;
+        this.isAvailable = isAvailable;
+    }
+
     // Getters and Setters
+    public void setIsAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
 }

@@ -16,5 +16,14 @@ public class Branch {
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
     private List<Vehicle> vehicles;
 
+    public Branch() {
+    }
+
+    public Branch(String name, String location, String address) {
+        this.name = name;
+        this.location = location;
+        this.address = address;
+    }
+
     // Getters and Setters
 }

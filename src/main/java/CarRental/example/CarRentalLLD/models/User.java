@@ -20,4 +20,12 @@ public class User {
     private List<Booking> bookings;
 
     // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail(){
+        return this.email;
+    }
 }

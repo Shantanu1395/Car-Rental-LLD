@@ -17,5 +17,15 @@ public class BookingEvent {
     private String description;
     private LocalDateTime timestamp;
 
+    public BookingEvent() {
+    }
+
+    public BookingEvent(Booking booking, String event, String description, LocalDateTime timestamp) {
+        this.booking = booking;
+        this.event = event;
+        this.description = description;
+        this.timestamp = timestamp;
+    }
+
     // Getters and Setters
 }

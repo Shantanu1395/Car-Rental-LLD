@@ -17,5 +17,19 @@ public class AddOn {
     @ManyToMany(mappedBy = "addOns")
     private List<Booking> bookings;
 
+    public AddOn() {
+    }
+
+    public AddOn(String name, String type, String description, double price) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.price = price;
+    }
+
     // Getters and Setters
+
+    public double getPrice() {
+        return price;
+    }
 }

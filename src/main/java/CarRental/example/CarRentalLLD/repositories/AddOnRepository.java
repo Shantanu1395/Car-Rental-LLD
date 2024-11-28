@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface AddOnRepository extends JpaRepository<AddOn, Long> {
     // Find add-ons by booking ID
-    @Query("SELECT a FROM AddOn a JOIN BookingAddOn ba ON a.id = ba.addOnId WHERE ba.bookingId = :bookingId")
+    @Query("SELECT a FROM AddOn a JOIN a.bookings b WHERE b.id = :bookingId")
     List<AddOn> findAddOnsByBookingId(@Param("bookingId") Long bookingId);
 }
