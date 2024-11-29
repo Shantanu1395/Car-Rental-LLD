@@ -4,6 +4,7 @@ import CarRental.example.CarRentalLLD.interfaces.strategy.NotificationStrategy;
 import CarRental.example.CarRentalLLD.models.User;
 import CarRental.example.CarRentalLLD.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
@@ -14,6 +15,7 @@ public class EmailNotificationStrategy implements NotificationStrategy {
     @Autowired
     private UserRepository userRepository;
 
+    @Async
     @Override
     public void sendNotification(Long userId, String message) {
         User user = userRepository.findById(userId)

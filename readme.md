@@ -46,7 +46,7 @@ Lifecycle / Activity
 4. User comes to app and register / login himself
 5. User searches inventory
 6. User selects a vehicle and make a booking with/without addons
-1. User make payment for the booking along with security fees
+7. User make payment for the booking along with security fees
 7. User modify addons for booking
 8. User modify / cancels his booking
 9. System sends notification for vehicle pickup
@@ -56,10 +56,13 @@ Lifecycle / Activity
 13. System generates receipt on the bases of fare + fuel fee + deduct money from security fees and return remaining money
 14. Admin can remove vehicle from garage
 
+State transition Diagram
+
 http://localhost:8080/h2-console
 
 **Models**
-```Branch {id, name, location, address} -1:m- Vehicle {id, licensePlate, type, branchId (FK), barcode, isAvailable, fuelLevel, mileage, lastServiced}
+```
+Branch {id, name, location, address} -1:m- Vehicle {id, licensePlate, type, branchId (FK), barcode, isAvailable, fuelLevel, mileage, lastServiced}
 Booking {id, vehicleId (FK), userId (FK), startTime, endTime, status}
 		-m:1- Vehicle {id, licensePlate, type, branchId (FK), barcode, isAvailable, fuelLevel, mileage, lastServiced}
         -m:1- User {id, username, email, password, contactDetails, role}
@@ -84,6 +87,11 @@ public interface VehicleService {
     Vehicle getVehicleById(Long vehicleId);
 }
 
+public interface AddOnService {
+    AddOn addAddOn(String name, String type, String description, double price);
+    List<AddOn> getAllAddOns();
+}
+
 public interface BookingService { 
     Booking createBooking(Long userId, Long vehicleId, LocalDateTime startTime, LocalDateTime endTime, List<Long> addOnIds);
     Booking modifyBooking(Long bookingId, LocalDateTime newStartTime, LocalDateTime newEndTime, List<Long> addOnIds);
@@ -91,11 +99,6 @@ public interface BookingService {
     Booking getBookingById(Long bookingId);
     List<Fee> calculateFeesForBooking(Long bookingId);
     double getTotalFee(Long bookingId);
-}
-
-public interface AddOnService { 
-    AddOn addAddOn(String name, String type, String description, double price);
-    List<AddOn> getAllAddOns();
 }
 
 public interface PaymentService { 

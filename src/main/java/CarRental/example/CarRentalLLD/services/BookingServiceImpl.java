@@ -6,10 +6,13 @@ import CarRental.example.CarRentalLLD.models.*;
 import CarRental.example.CarRentalLLD.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -20,6 +23,7 @@ public class BookingServiceImpl implements BookingService {
     private final VehicleRepository vehicleRepository;
     private final FeeRepository feeRepository;
     private final FeeCalculationStrategy feeCalculationStrategy;
+    private final ReentrantLock lock = new ReentrantLock();
 
     @Autowired
     public BookingServiceImpl(
@@ -38,23 +42,41 @@ public class BookingServiceImpl implements BookingService {
         this.vehicleRepository = vehicleRepository;
     }
 
+    @Transactional
     @Override
     public Booking createBooking(Long userId, Long vehicleId, LocalDateTime startTime, LocalDateTime endTime, List<Long> addOnIds) {
 
-        Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id:" + vehicleId));
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with id:" + userId));
+        boolean lockAcquired = false;
 
-        Booking booking = new Booking(user, vehicle, startTime, endTime, "ACTIVE");
+        try {
+            // Attempt to acquire the lock
+            lockAcquired = lock.tryLock(10, TimeUnit.SECONDS);
 
-        Booking savedBooking = bookingRepository.save(booking);
+            if (!lockAcquired) {
+                throw new IllegalStateException("Unable to acquire lock, booking already in progress");
+            }
+            Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id:" + vehicleId));
+            User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with id:" + userId));
 
-        List<AddOn> addOns = addOnRepository.findAllById(addOnIds);
-        double fee = feeCalculationStrategy.calculateFee(savedBooking, addOns);
+            Booking booking = new Booking(user, vehicle, startTime, endTime, "ACTIVE");
 
-        Fee bookingFee = new Fee(savedBooking, "BASE", fee);
+            Booking savedBooking = bookingRepository.save(booking);
 
-        feeRepository.save(bookingFee);
-        return savedBooking;
+            List<AddOn> addOns = addOnRepository.findAllById(addOnIds);
+            double fee = feeCalculationStrategy.calculateFee(savedBooking, addOns);
+
+            Fee bookingFee = new Fee(savedBooking, "BASE", fee);
+
+            feeRepository.save(bookingFee);
+            return savedBooking;
+        }catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Thread interrupted while acquiring lock");
+        } finally {
+            if (lockAcquired) {
+                lock.unlock();
+            }
+        }
     }
 
     @Override
@@ -80,6 +102,7 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.save(booking);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Booking getBookingById(Long bookingId) {
         return bookingRepository.findById(bookingId).orElseThrow(() -> new EntityNotFoundException("Booking not found"));
