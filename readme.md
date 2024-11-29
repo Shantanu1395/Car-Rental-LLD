@@ -125,3 +125,10 @@ public interface NotificationService {
 }
 ```
 
+Concurrency
+```
+1. @Transactional
+2. Reentrant-locks
+3. @Async / Executor Service / Completable Future(supply async)
+4. @Lock
+```
